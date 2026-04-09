@@ -1,1 +1,14 @@
+# Secrets
 .env
+
+# Python junk
+__pycache__/
+*.py[cod]
+*$py.class
+
+# IDE junk
+.idea/
+.vscode/
+
+# Notebook junk
+.ipynb_checkpoints/

@@ -1,15 +1,10 @@
-import os
-from dotenv import load_dotenv
+# Centralized Configuration
+FRED_API_KEY = "YOUR_KEY_HERE" # Handled via .env locally
 
-load_dotenv()
-# Initialize fredapi library with fred api key
-FRED_API_KEY = os.getenv("FRED_API_KEY")
-
-# List of all FRED data we are collecting
 FRED_SERIES = {
     "bbb_spread": "BAMLC0A4CBBB",
-    "hy_spread": "BAMLH0A0HYM2EY",
+    "hy_spread": "BAMLC0A4CHEA", # Added High Yield for future risk-on/off checks
+    "vix": "VIXCLS",
     "us10y": "DGS10",
-    "us2y": "DGS2",
-    "vix": "VIXCLS"
+    "us2y": "DGS2"
 }
