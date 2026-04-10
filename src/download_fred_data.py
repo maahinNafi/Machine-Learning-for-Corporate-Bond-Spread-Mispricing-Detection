@@ -7,10 +7,6 @@ load_dotenv()
 
 
 def get_fred_data():
-    """
-    Connects to the real FRED API.
-    If the server is down, it will raise an error rather than simulate.
-    """
     api_key = os.getenv("FRED_API_KEY")
 
     # Initialize the connection
@@ -28,7 +24,6 @@ def get_fred_data():
 
     fred_data = {}
     for name, series_id in series_map.items():
-        # This will now throw a real error if FRED is down
         fred_data[name] = fred.get_series(series_id)
 
     return fred_data

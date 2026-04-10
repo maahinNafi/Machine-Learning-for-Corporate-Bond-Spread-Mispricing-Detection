@@ -1,24 +1,28 @@
-from src.download_fred_data import get_fred_data
-from src.build_dataset import create_training_data
-from src.train_model import prepare_data_for_ml, train_bond_model, evaluate_model, detect_mispricing
-from src.visualize import plot_mispricing
+from src.config import DEFAULT_TICKER
+from src.clean_merge_data import run as clean_merge
+from src.feature_engineering import run as build_features
+from src.train_spread_model import run as train_model
+from src.generate_signals import run as generate_signals
+from src.backtest_strategy import run as backtest
 
-TICKER = "MSFT"
+TICKER = DEFAULT_TICKER
 
-# 1. Pull macro data from FRED
-fred_data = get_fred_data()
+print("=" * 55)
+print(f"  Bond Mispricing Detection — {TICKER}")
+print("=" * 55)
 
-# 2. Build the training dataset (joins macro + company ratios)
-df = create_training_data(fred_data, TICKER)
-print(df.tail())
+print("\n[1/5] Downloading & merging data...")
+clean_merge(TICKER)
 
-# 3. Prepare, train, evaluate
-X_train, X_test, y_train, y_test = prepare_data_for_ml(df)
-model = train_bond_model(X_train, y_train)
-r2, mae = evaluate_model(model, X_test, y_test)
-print(f"R²: {r2:.4f} | MAE: {mae:.4f}")
+print("\n[2/5] Engineering features...")
+build_features(TICKER)
 
-# 4. Detect mispricing and plot
-signals = detect_mispricing(model, X_test, y_test)
-print(signals.head(10))
-plot_mispricing(signals)
+print("\n[3/5] Training spread model...")
+_, metrics = train_model()
+print(f"      R²: {metrics['r2']:.4f}  |  MAE: {metrics['mae']:.4f} %")
+
+print("\n[4/5] Generating trading signals...")
+generate_signals()
+
+print("\n[5/5] Running backtest...")
+backtest(TICKER)
