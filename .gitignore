@@ -1,14 +1,16 @@
-# Secrets
+# Environment variables
 .env
 
-# Python junk
-__pycache__/
-*.py[cod]
-*$py.class
-
-# IDE junk
-.idea/
-.vscode/
-
-# Notebook junk
+# Jupyter checkpoints
 .ipynb_checkpoints/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# macOS system files
+.DS_Store
+
+# Virtual environments
+venv/
+.env/
